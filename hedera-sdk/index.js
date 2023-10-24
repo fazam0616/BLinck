@@ -64,10 +64,6 @@ async function environmentSetup() {
   const newAccountPrivateKey = PrivateKey.generateED25519(); 
   const newAccountPublicKey = newAccountPrivateKey.publicKey;
 
-  console.log("Trying key-pair: " + newAccountPrivateKey._key + '\n' + newAccountPrivateKey.publicKey);
-
-  console.log("ED functions success\n");
-
   // Create a new account with 1,000 tinybar starting balance
   const newAccountTransactionResponse = await new AccountCreateTransaction()
     .setKey(newAccountPublicKey)
