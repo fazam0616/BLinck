@@ -1,5 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { firestore } from 'firebase';
+require("@hashgraph/sdk");
+
 
 // config:
 const firebaseConfig = {
@@ -17,35 +19,30 @@ class FirebaseHandler {
   constructor() {  
     app = initializeApp(firebaseConfig);
     analytics = getAnalytics(app);
-    firestore = firebase.firestore();
+    fstore = firebase.firestore();
+    const users = fstore.collection("Users");
+    const wallets = fstore.collection("wallets");
+    const Genesis = fstore.collection("Genesis");
   }
 
-  firebaseUploadReceipt() {
-
+  firebaseCreateAccount(user, docId) {
+    this.users.doc(docId).set(user);
   }
 
-  firebaseCreateAccount() {
-
+  firebaseUpdateAccount(user, docId) {
+    this.users.doc(docId).set(user);
   }
 
-  firebaseUpdateAccount() {
-
+  firebaseCreateWallet(wallet, docId) {
+    this.wallet.doc(docId).set(wallet);
   }
 
-  firebaseCreateWallet() {
-
+  firebaseUpdateWallet(wallet, docId) {
+    this.wallet.doc(docId).set(wallet);
   }
 
-  firebaseUpdateWallet() {
-
-  }
-
-  firebaseFetchReceipt() {
-
-  }
-
-  firebaseFetchWallet() {
-
+  firebaseFetchWallet(wallet, docId) {
+    this.wallet.doc(docId).set(wallet); //??? no fucking shot it's this easy. I'm missing something.
   }
 
   firebaseFetchAcctId() { // For grabbing P2P target from Username
@@ -53,6 +50,6 @@ class FirebaseHandler {
   }
 
   firebaseFetchUser() {
-    
+
   }
 }

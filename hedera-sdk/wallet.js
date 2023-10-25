@@ -14,13 +14,9 @@ class Wallet {
       this.publicKey = publicKey;     // Public key associated with the account
       this.privateKey = privateKey;   // Private key for signing transactions (keep this secure)
       this.currencyId = currencyId;   // String, Denominates the Fiat currency we're working with.
-      this.receipts = receipts;
+      this.receipts = receipts;       // Array of Hedera Receipt objects.
     }
 
-    tinybarConversion(currencyId) {
-        // Translates Tinybars to USD, then USD to the relevant currency.
-        return 1; // Replace later.
-    }
 
     async getBalance(client) {
 
@@ -28,8 +24,10 @@ class Wallet {
         // Returns the Balance of a wallet. Requires a client from whomever is responsible for it.
         const accountBalance = await new AccountBalanceQuery().setAccountId(newAccountId).execute(client);
         console.log("New account balance is: " +accountBalance.hbars.toTinybars() +" tinybars.");
+        const transactionReceipt = await accountBalance.getReceipt(client);
 
-        return accountBalance.hbars.toTinybars()/tinybarConversion(this.currencyId);
+
+        return accountBalance.hbars.toTinybars()/transactionReceipt.exchangeRate;
     }
 
     setClient(client) {
@@ -50,6 +48,10 @@ class Wallet {
 
         // Verify the transaction reached consensus
         const transactionReceipt = await sendHbar.getReceipt(client);
+
+        // Upload Receipt to Firebase:
+
+
         console.log("The transfer transaction from my account to the new account was: " + transactionReceipt.status.toString());
     }
 
