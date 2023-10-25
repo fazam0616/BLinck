@@ -25,31 +25,34 @@ class FirebaseHandler {
     const Genesis = fstore.collection("Genesis");
   }
 
-  firebaseCreateAccount(user, docId) {
-    this.users.doc(docId).set(user);
+  async firebaseCreateWallet(wallet, docId) {
+   await this.wallet.doc(docId).set(wallet);
   }
 
-  firebaseUpdateAccount(user, docId) {
-    this.users.doc(docId).set(user);
+  async firebaseUpdateWallet(wallet, docId) {
+    await this.wallet.doc(docId).set(wallet);
+  }
+  
+  async firebaseCreateAccount(user, docId) { // Translate wallet array into references.
+    await this.users.doc(docId).set(user);
   }
 
-  firebaseCreateWallet(wallet, docId) {
-    this.wallet.doc(docId).set(wallet);
+  async firebaseUpdateAccount(user, docId) { // Translate wallet array into references.
+    await this.users.doc(docId).set(user);
   }
 
-  firebaseUpdateWallet(wallet, docId) {
-    this.wallet.doc(docId).set(wallet);
-  }
 
-  firebaseFetchWallet(wallet, docId) {
-    this.wallet.doc(docId).set(wallet); //??? no fucking shot it's this easy. I'm missing something.
+  async firebaseFetchWallet(wallet, docId) {
+    await this.wallets.doc(docId).get(); //??? no fucking shot it's this easy. I'm missing something.
+
+    return 
   }
 
   firebaseFetchAcctId() { // For grabbing P2P target from Username
 
   }
 
-  firebaseFetchUser() {
+  firebaseFetchUser() { // TODO: Translate references to wallet array. Figure our, probably a foreach.
 
   }
 }
