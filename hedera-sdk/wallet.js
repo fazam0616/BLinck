@@ -54,7 +54,5 @@ class Wallet {
         console.log("The transfer transaction from my account to the new account was: " + transactionReceipt.status.toString());
 
         FirebaseHandler.fireabseUpdateWallet(this.alias + this.accountId, JSON.stringify(this));
-
     }
-
 }

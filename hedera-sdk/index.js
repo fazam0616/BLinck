@@ -1,124 +1,42 @@
-// Example code file made using Getting Started documentation.
-const {
-  Client,
-  PrivateKey,
-  AccountCreateTransaction,
-  AccountBalanceQuery,
-  Hbar,
-  TransferTransaction,
-} = require("@hashgraph/sdk");
-require("dotenv").config();
+import Wallet from './wallets.js';
+import foundry from './foundry.js';
+import firebaseConfig from './firebase.js';
+import FirebaseHandler from './firebase.js';
+import User from './User.js'
 
-async function getBalance(client, AccountId){
+// Import your classes and functions
+const User = require('./User.js'); // Adjust the path to your actual file
+const Wallet = require('./wallet.js'); // Adjust the path to your actual file
+const FirebaseHandler = require('./firebase.js'); // Adjust the path to your actual file
 
-  const accountBalance = await new AccountBalanceQuery()
-    .setAccountId(AccountId)
-    .execute(client);
+// Your actual test cases start here
 
-  console.log(
-    "Account " + AccountId + " balance is: " +
-      accountBalance.hbars.toTinybars() +
-      " tinybars.\n"
-  );
-}
+// Test case 1: Creating a User
+const usr = new User('TestUser', 'test@example.com', 'password', []);
 
-async function environmentSetup() {
-  // Grab your Hedera testnet account ID and private key from your .env file
-  const myAccountId = process.env.ACCOUNT_ID;
-  const myPrivateKey = process.env.PRIVATE_KEY;
+// Assertion
+console.log('Test case 1: Creating a User\n');
+console.log('Is user an instance of User?', usr instanceof User);
+console.log("\nUser details:" + usr + '\n');
 
-  console.log("Loaded .env\n");
+// Test case 2: Creating a Wallet from the Genesis
+usr.createNewWallet('first', 50, "USD");
+usr.createNewWallet('second', 20, "USD");
 
-  // If we weren't able to grab it, we should throw a new error
-  if (myAccountId == null || myPrivateKey == null) {
-    throw new Error(
-      "Environment variables myAccountId and myPrivateKey must be present"
-    );
-  }
+walls = usr.getWallets();
+// Assertion
+console.log(walls);
+console.log('\nIs genesisWallet an instance of Wallet?', walls[0] instanceof Wallet);
+console.log('\nIs genesisWallet an instance of Wallet?', walls[1] instanceof Wallet);
 
-  // Create your connection to the Hedera network
-  const client = Client.forTestnet();
+// Test firebaseUpdateUser: 
+console.log('\nTesting Firebase:');
+usr.firebaseUpdateUser();
+console.log("\nCheck firebase dingus");
 
-  console.log("Loaded CLIENT\n");
+usr.firebaseUpdateUser();
 
-  //Set your account as the client's operator
-  client.setOperator(myAccountId, myPrivateKey);
+// Test case 5: Downloading User and Wallets from Firebase
+const usr2 = foundry.getUserFromFirebase(usr.kycId);
 
-  // Set default max transaction fee & max query payment
-  client.setDefaultMaxTransactionFee(new Hbar(100));
-  client.setDefaultMaxQueryPayment(new Hbar(50));
-  
-  const myaccountBalance = await new AccountBalanceQuery()
-  .setAccountId(myAccountId)
-  .execute(client);
-
-  console.log(
-  "Account " + myAccountId + " balance is: " +
-    myaccountBalance.hbars.toTinybars() +
-    " tinybars.\n"
-  );
-
-  console.log("About to generate new account\n");
-
-  // Create new keys
-  const newAccountPrivateKey = PrivateKey.generateED25519(); 
-  const newAccountPublicKey = newAccountPrivateKey.publicKey;
-
-  // Create a new account with 1,000 tinybar starting balance
-  const newAccountTransactionResponse = await new AccountCreateTransaction()
-    .setKey(newAccountPublicKey)
-    .setInitialBalance(Hbar.fromTinybars(1))
-    .execute(client);
-
-  console.log("Got newAccountId, awaiting Receipt\n");
-
-  // Get the new account ID
-  const getReceipt = await newAccountTransactionResponse.getReceipt(client);
-  const newAccountId = getReceipt.accountId;
-
-  console.log("\nNew account ID: " + newAccountId);
-
-
-  // Verify the account balance
-  const accountBalance = await new AccountBalanceQuery()
-    .setAccountId(newAccountId)
-    .execute(client);
-
-  console.log(
-    "New account balance is: " +
-      accountBalance.hbars.toTinybars() +
-      " tinybars."
-  );
-
-  // Create the transfer transaction
-  const sendHbar = await new TransferTransaction()
-    .addHbarTransfer(myAccountId, Hbar.fromTinybars(-1000))
-    .addHbarTransfer(newAccountId, Hbar.fromTinybars(1000))
-    .execute(client);
-
-  // Verify the transaction reached consensus
-  const transactionReceipt = await sendHbar.getReceipt(client);
-  console.log(
-    "The transfer transaction from my account to the new account was: " +
-      transactionReceipt.status.toString()
-  );
-
-  // Request the cost of the query
-  const queryCost = await new AccountBalanceQuery()
-    .setAccountId(newAccountId)
-    .getCost(client);
-
-  console.log("\nThe cost of query is: " + queryCost);
-
-  // Check the new account's balance
-  const getNewBalance = await new AccountBalanceQuery()
-    .setAccountId(newAccountId)
-    .execute(client);
-
-  console.log(
-    "The account balance after the transfer is: " +
-      getNewBalance.hbars.toTinybars() +
-      " tinybars."
-  );
-}
-environmentSetup();
+console.log("\nAre they equal? Not right, but objects.", usr === usr2);

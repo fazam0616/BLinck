@@ -40,9 +40,7 @@ class User {
       this.wallets[0].setClient(this.client);
       this.wallets.push(foundry.requestNewWallet(client, balance, alias, currencyId));
     }
-
-    // Update this user in firebase:
-    this.firebaseUpdateUser();
+    console.log("\nNew wallet created:" + JSON.stringify(this.wallets.at(-1)));
   }
 
   // Method to get all wallets associated with the user

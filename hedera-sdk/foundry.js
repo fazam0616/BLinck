@@ -43,7 +43,7 @@ class foundry {
         const newAccountId = getReceipt.accountId;
         console.log("\nNew account ID: " + newAccountId);
 
-        receipts = [getReceipt];
+        const receipts = [getReceipt];
         return new Wallet(newAccountId, alias, balance, newAccountPublicKey, newAccountPrivateKey, currencyId, receipts);
     }
 
@@ -62,7 +62,7 @@ class foundry {
         const newAccountId = getReceipt.accountId;
         console.log("\nNew account ID: " + newAccountId);
 
-        receipts = [getReceipt];
+        const receipts = [getReceipt];
         const newWallet = new Wallet(newAccountId, alias, balance, newAccountPublicKey, newAccountPrivateKey, currencyId, receipts)
     
         return newWallet;
