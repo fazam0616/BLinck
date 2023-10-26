@@ -1,18 +1,18 @@
 // Realistically, all genesis wallet stuff would only be server-side, 
 // but Firebase Functions would cost me money lol.
 
-const {
+import {
     Client,
     PrivateKey,
     AccountCreateTransaction,
     AccountBalanceQuery,
     Hbar,
     TransferTransaction,
-} = require("@hashgraph/sdk");
-require("dotenv").config();
+} from "@hashgraph/sdk";
+import 'dotenv/config.js';
   
 import Wallet from './wallet.js';
-import firebaseClient from './firebase.js';
+import FirebaseHandler from './firebase.js';
 
 class foundry { 
     #genesisPrivateKey;
@@ -80,3 +80,5 @@ class foundry {
         return useruser;
     }
 }
+
+export default foundry;

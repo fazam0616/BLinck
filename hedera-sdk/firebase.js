@@ -1,6 +1,6 @@
+import 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
-import { firestore } from 'firebase';
-require("@hashgraph/sdk");
+import { getAnalytics } from 'firebase/analytics';
 
 
 // config:
@@ -127,3 +127,5 @@ class FirebaseHandler {
     });
   }
 }
+
+export default FirebaseHandler;

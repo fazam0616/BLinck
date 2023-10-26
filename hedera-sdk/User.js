@@ -1,9 +1,7 @@
-import Wallet from './wallets.js';
+import Wallet from './wallet.js'
+import FirebaseHandler from "./firebase.js";
 import foundry from './foundry.js';
-import firebaseConfig from './firebase.js';
-import FirebaseHandler from './firebase.js';
-
-const { Client } = require("@hashgraph/sdk");
+import { Client } from "@hashgraph/sdk";
 
 
 class User {
@@ -49,3 +47,5 @@ class User {
   }
   
 }
+
+export default User

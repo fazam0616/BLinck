@@ -1,11 +1,12 @@
-const {
+import {
     Client,
     PrivateKey,
     AccountBalanceQuery,
     Hbar,
     TransferTransaction,
-} = require("@hashgraph/sdk");
+} from "@hashgraph/sdk";
 import FirebaseHandler from './firebase.js';
+
 
 class Wallet {
     constructor(accountId, alias, balance, publicKey, privateKey, currencyId, receipts) {
@@ -56,3 +57,5 @@ class Wallet {
         FirebaseHandler.fireabseUpdateWallet(this.alias + this.accountId, JSON.stringify(this));
     }
 }
+
+export default Wallet;

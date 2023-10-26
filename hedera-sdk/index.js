@@ -1,14 +1,8 @@
-import Wallet from './wallets.js';
-import foundry from './foundry.js';
-import firebaseConfig from './firebase.js';
+import User from './User.js';
+import Wallet from './wallet.js';
 import FirebaseHandler from './firebase.js';
-import User from './User.js'
-
+import foundry from './foundry.js';
 // Import your classes and functions
-const User = require('./User.js'); // Adjust the path to your actual file
-const Wallet = require('./wallet.js'); // Adjust the path to your actual file
-const FirebaseHandler = require('./firebase.js'); // Adjust the path to your actual file
-
 // Your actual test cases start here
 
 // Test case 1: Creating a User
