@@ -14,16 +14,16 @@ class User {
     this.client = Client.forTestnet;
   }
 
-  firebaseUpdateUser() {
-    w2 = []
+  firebaseUpdateUser(FHandle) {
+    const w2 = []
     for (wall in this.wallets) {
-      w2.push(FirebaseHandler.firebaseCreateWallet(wall.alias + wall.accountId, wall));
+      w2.push(FHandle.firebaseCreateWallet(wall.alias + wall.accountId, wall));
     }
     const clone = { ...this }
     clone.wallets = w2;
     clone.client = null;
     const jclone = JSON.stringify(clone);
-    FirebaseHandler.firebaseUpdateAccount(jclone, this.email + this.accountId);
+    FHandle.firebaseUpdateAccount(jclone, this.email + this.accountId);
   }
 
   // Method to add a wallet to the user's collection
