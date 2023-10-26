@@ -25,7 +25,7 @@ class Wallet {
         const accountBalance = await new AccountBalanceQuery().setAccountId(newAccountId).execute(client);
         console.log("New account balance is: " +accountBalance.hbars.toTinybars() +" tinybars.");
         const transactionReceipt = await accountBalance.getReceipt(client);
-
+        
 
         return accountBalance.hbars.toTinybars()/transactionReceipt.exchangeRate;
     }
@@ -48,11 +48,12 @@ class Wallet {
 
         // Verify the transaction reached consensus
         const transactionReceipt = await sendHbar.getReceipt(client);
+        this.receipts.push(transactionReceipt);
 
         // Upload Receipt to Firebase:
-
-
         console.log("The transfer transaction from my account to the new account was: " + transactionReceipt.status.toString());
+        
+
     }
 
 }

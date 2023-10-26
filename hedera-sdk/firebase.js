@@ -15,36 +15,56 @@ const firebaseConfig = {
 };
 
 class FirebaseHandler {
+
+  app;
+  analytics;
+  users;
+  wallets;
+  Genesis;
   
   constructor() {  
-    app = initializeApp(firebaseConfig);
-    analytics = getAnalytics(app);
-    fstore = firebase.firestore();
-    const users = fstore.collection("Users");
-    const wallets = fstore.collection("wallets");
-    const Genesis = fstore.collection("Genesis");
+    this.app = initializeApp(firebaseConfig);
+    this.analytics = getAnalytics(this.app);
+    this.fstore = firebase.firestore();
+    this.users = fstore.collection("Users");
+    this.wallets = fstore.collection("wallets");
+    this.Genesis = fstore.collection("Genesis");
   }
 
-  async firebaseCreateWallet(wallet, docId) {
-   await this.wallet.doc(docId).set(wallet);
+  async firebaseCreateWallet(docId, wallet) {
+    const walletRef = this.wallets.doc(docId);
+    const walletDoc = await walletRef.get();
+    
+    if (walletDoc.exists) {
+      return walletRef;
+    }
+    else {
+      await this.wallets.doc(docId).set(wallet);
+    }
+  }
+  
+  async firebaseCreateAccount(UserId, user) {
+    const userRef = this.users.doc(UserId);
+    const userDoc = await userRef.get();
+
+    if (userDoc.exists) {
+      return walletRef;
+    }
+    else {
+      await this.users.doc(docId).set(wallet);
+    } 
   }
 
   async firebaseUpdateWallet(wallet, docId) {
     await this.wallet.doc(docId).set(wallet);
-  }
-  
-  async firebaseCreateAccount(user, docId) { // Translate wallet array into references.
-    await this.users.doc(docId).set(user);
   }
 
   async firebaseUpdateAccount(user, docId) { // Translate wallet array into references.
     await this.users.doc(docId).set(user);
   }
 
-
   async firebaseFetchWallet(wallet, docId) {
     await this.wallets.doc(docId).get(); //??? no fucking shot it's this easy. I'm missing something.
-
     return 
   }
 

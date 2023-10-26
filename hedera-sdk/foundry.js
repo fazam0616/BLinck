@@ -47,7 +47,7 @@ class foundry {
         return new Wallet(newAccountId, alias, balance, newAccountPublicKey, newAccountPrivateKey, currencyId, receipts);
     }
 
-    async requestNewWallet(client, balance, alias, currencyId) {
+    static async requestNewWallet(client, balance, alias, currencyId) {
         const newAccountPrivateKey = PrivateKey.generateED25519(); 
         const newAccountPublicKey = newAccountPrivateKey.publicKey;
 
@@ -64,7 +64,6 @@ class foundry {
 
         receipts = [getReceipt];
         const newWallet = new Wallet(newAccountId, alias, balance, newAccountPublicKey, newAccountPrivateKey, currencyId, receipts)
-        firebaseClient.uploadReceipt(getReceipt);
     
         return newWallet;
     }

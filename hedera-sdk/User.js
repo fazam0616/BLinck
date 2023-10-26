@@ -16,6 +16,18 @@ class User {
     this.client = Client.forTestnet;
   }
 
+  firebaseUpdateUser() {
+    w2 = []
+    for (wall in this.wallets) {
+      w2.push(FirebaseHandler.firebaseCreateWallet(wall.alias + wall.accountId))
+    }
+    const clone = { ...this };
+    clone.wallets = w2;
+    clone.client = null;
+    const jclone = JSON.stringify(clone);
+    FirebaseHandler.firebaseUpdateAccount(jclone);
+  }
+
   // Method to add a wallet to the user's collection
   async createNewWallet(alias, balance, currencyId) {
     // Creates a new wallet, or gets the genesis wallet from the foundry.
@@ -30,7 +42,7 @@ class User {
     }
 
     // Update this user in firebase:
-    FirebaseHandler.updateUser(JSON.stringify(this), this.kycId);
+    this.firebaseUpdateUser();
   }
 
   // Method to get all wallets associated with the user
