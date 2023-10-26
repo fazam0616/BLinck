@@ -1,8 +1,5 @@
-import 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-//import { getAnalytics } from 'firebase/analytics';
-
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, QuerySnapshot } from 'firebase/firestore';
 
 // config:
 const firebaseConfig = {
@@ -18,114 +15,87 @@ const firebaseConfig = {
 class FirebaseHandler {
   constructor() {  
     this.app = initializeApp(firebaseConfig);
-    //this.analytics = getAnalytics(this.app);
-    this.fstore = getFirestore(this.app);
-    this.users = this.fstore.collection('Users');
-    this.wallets = this.fstore.collection('wallets');
-    this.Genesis = this.fstore.collection('Genesis');
+    this.firestore = getFirestore();
+    console.log(this.firestore);
+    this.users = collection(this.firestore, 'Users');
+    this.wallets = collection(this.firestore, 'wallets');
+    this.Genesis = collection(this.firestore, 'Genesis');
   }
 
   async firebaseCreateWallet(docId, wallet) {
-    const walletRef = this.wallets.doc(docId);
-    const walletDoc = await walletRef.get();
+    const walletRef = doc(this.wallets, docId);
+    const walletDoc = await getDoc(walletRef);
     
-    if (walletDoc.exists) {
+    if (walletDoc.exists()) {
       return walletRef;
-    }
-    else {
-      await this.wallets.doc(docId).set(wallet);
+    } else {
+      await setDoc(walletRef, wallet);
     }
   }
   
   async firebaseCreateAccount(UserId, user) {
-    const userRef = this.users.doc(UserId);
-    const userDoc = await userRef.get();
+    const queryRef = query(this.users, where('UserId', '==', UserId));
+    const querySnapshot = await getDoc(queryRef);
 
-    if (userDoc.exists) {
-      return walletRef;
+    if (querySnapshot.size === 0) {
+      return null;
+    } else {
+      const userDoc = querySnapshot.docs[0];
+      const userData = userDoc.data();
+      const accountId = userData.accountId;
+      return accountId;
     }
-    else {
-      await this.users.doc(docId).set(user);
-    } 
   }
 
   async firebaseUpdateWallet(docId, wallet) {
-    await this.wallet.doc(docId).set(wallet);
+    const walletRef = doc(this.wallets, docId);
+    await setDoc(walletRef, wallet);
   }
 
-  async firebaseUpdateAccount(user, docId) { // Translate wallet array into references.
-    await this.users.doc(docId).set(user);
+  async firebaseUpdateAccount(user, docId) {
+    const userRef = doc(this.users, docId);
+    await setDoc(userRef, user);
   }
-
 
   async firebaseFetchWallet(docId) {
-    const walletRef = this.wallets.doc(docId);
+    const walletRef = doc(this.wallets, docId);
 
-    // Use getDoc to retrieve the wallet document
-    getDoc(walletRef)
-    .then((doc) => {
-      if (doc.exists()) {
-        const walletData = doc.data();
-        console.log('Wallet Data:', walletData);
-        return doc;
-        // Now you can work with the wallet data as a JSON object
-      } else {
-        console.log('Wallet document does not exist');
-      }
-    })
-    .catch((error) => {
-      console.error('Error getting wallet document:', error);
-    });
+    const walletDoc = await getDoc(walletRef);
+    if (walletDoc.exists()) {
+      const walletData = walletDoc.data();
+      console.log('Wallet Data:', walletData);
+      return walletDoc;
+    } else {
+      console.log('Wallet document does not exist');
+    }
   }
 
+  async firebaseFetchAcctIdbyEmail(email) {
+    const queryRef = query(this.users, where('email', '==', email));
+    const querySnapshot = await getDoc(queryRef);
 
-  firebaseFetchAcctIdbyEmail(email) { // For grabbing P2P target from Username
-  // Query the collection to find the document with the matching email
-  const query = this.users.where('email', '==', email);
-
-  // Execute the query
-  return query.get()
-    .then((querySnapshot) => {
-      if (querySnapshot.size === 0) {
-        // No user with the provided email found
-        return null;
-      } else {
-        // Assuming there's only one match, retrieve the accountId
-        const userDoc = querySnapshot.docs[0];
-        const userData = userDoc.data();
-        const accountId = userData.accountId;
-        return accountId;
-      }
-    })
-    .catch((error) => {
-      console.error('Error querying Firestore:', error);
-      throw error;
-    });
+    if (querySnapshot.size === 0) {
+      return null;
+    } else {
+      const userDoc = querySnapshot.docs[0];
+      const userData = userDoc.data();
+      const accountId = userData.accountId;
+      return accountId;
+    }
   }
 
-  firebaseFetchUser(docId) { // TODO: Translate references to wallet array. Figure out, probably a foreach.
-    const userRef = this.users.doc(docId);
+  async firebaseFetchUser(docId) {
+    const userRef = doc(this.users, docId);
+    const userDoc = await getDoc(userRef);
 
-    // Use getDoc to retrieve the user document
-    getDoc(userRef)
-    .then((doc) => {
-      if (doc.exists()) {
-        const userData = doc.data();
-        console.log('User Data:', userData);
-        // You can work with the user data here or pass it to another function
-        return userData;
-      } else {
-        console.log('User document does not exist');
-        // You may want to throw an error or handle the case where the document doesn't exist
-        throw new Error('User document does not exist');
-      }
-    })
-    .then((userData) => {
-      // You can work with the user data here or pass it to another function
-    })
-    .catch((error) => {
-      console.error('Error getting user document:', error);
-    });
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      console.log('User Data:', userData);
+      return userData;
+    } else {
+      console.log('User document does not exist');
+      throw new Error('User document does not exist');
+    }
   }
 }
 

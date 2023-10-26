@@ -29,7 +29,7 @@ console.log('\nTesting Firebase:');
 usr.firebaseUpdateUser();
 console.log("\nCheck firebase dingus");
 
-usr.firebaseUpdateUser();
+usr.firebaseUpdateUser(FHandle);
 
 // Test case 5: Downloading User and Wallets from Firebase
 const usr2 = foundry.getUserFromFirebase(usr.kycId);
