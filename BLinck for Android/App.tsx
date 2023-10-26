@@ -9,8 +9,11 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {LinearGradient} from 'react-native-linear-gradient';
-//import FirebaseHandler from 'hedera-sdk/firebase.js'
+import FirebaseHandler from 'hedera-sdk/firebase.js'
 
+var fhandle = new FirebaseHandler();
+
+console.log(fhandle);
 const config = {
   issuer: 'https://accounts.google.com',
   clientId: '76329107601-20n9pm9sq7a1fj1hedokc2f4m1ms7s96.apps.googleusercontent.com',
