@@ -36,11 +36,11 @@ class Wallet {
         client.setDefaultMaxQueryPayment(new Hbar(50));
     }
 
-    async initiateTransaction(client, amount, targetEmail) {
+    async initiateTransaction(client, amount, targetEmail, FHandle) {
         if (this.balance < amount) {return null;} // needs error handling
         this.setClient(client); 
 
-        const targetId = FirebaseHandler.firebaseFetchAcctIdbyEmail(targetEmail);
+        const targetId = FHandle.firebaseFetchAcctIdbyEmail(targetEmail);
 
         const sendHbar = await new TransferTransaction()
         .addHbarTransfer(myAccountId, Hbar.fromTinybars(-amount))
@@ -54,7 +54,7 @@ class Wallet {
         // Upload Receipt to Firebase:
         console.log("The transfer transaction from my account to the new account was: " + transactionReceipt.status.toString());
 
-        FirebaseHandler.fireabseUpdateWallet(this.alias + this.accountId, JSON.stringify(this));
+        FHandle.fireabseUpdateWallet(this.alias + this.accountId, JSON.stringify(this));
     }
 }
 

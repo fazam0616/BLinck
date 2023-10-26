@@ -7,17 +7,18 @@ import foundry from './foundry.js';
 
 // Test case 1: Creating a User
 const usr = new User('TestUser', 'test@example.com', 'password', []);
+const FHandle = new FirebaseHandler();
 
 // Assertion
 console.log('Test case 1: Creating a User\n');
 console.log('Is user an instance of User?', usr instanceof User);
-console.log("\nUser details:" + usr + '\n');
+console.log("\nUser details:" + usr.name + usr.email + usr.kycId + '\n');
 
 // Test case 2: Creating a Wallet from the Genesis
 usr.createNewWallet('first', 50, "USD");
 usr.createNewWallet('second', 20, "USD");
 
-walls = usr.getWallets();
+const walls = usr.getWallets();
 // Assertion
 console.log(walls);
 console.log('\nIs genesisWallet an instance of Wallet?', walls[0] instanceof Wallet);

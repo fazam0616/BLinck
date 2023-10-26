@@ -68,13 +68,13 @@ class foundry {
         return newWallet;
     }
 
-    static async getUserFromFirebase(userId) {
+    static async getUserFromFirebase(userId, FHandle) {
         w2 = [];
-        juser = FirebaseHandler.firebaseFetchUser(userId);
+        juser = FHandle.firebaseFetchUser(userId);
         uclone = JSON.parse(uclone);
         // Fill an array with wallet objects from reference.
         for (wall in uclone.wallets) {
-            w2.push(JSON.parse(FirebaseHandler.firebaseFetchWallet(wall.alias + wall.accountId)));
+            w2.push(JSON.parse(FHandle.firebaseFetchWallet(wall.alias + wall.accountId)));
         }
         useruser = new User(uclone.name, uclone.email, uclone.password, w2);
         return useruser;

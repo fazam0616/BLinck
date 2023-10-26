@@ -1,6 +1,7 @@
 import 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
+import { getFirestore } from 'firebase/firestore';
+//import { getAnalytics } from 'firebase/analytics';
 
 
 // config:
@@ -17,8 +18,8 @@ const firebaseConfig = {
 class FirebaseHandler {
   constructor() {  
     this.app = initializeApp(firebaseConfig);
-    this.analytics = getAnalytics(this.app);
-    this.fstore = firebase.firestore();
+    //this.analytics = getAnalytics(this.app);
+    this.fstore = getFirestore(this.app);
     this.users = fstore.collection("Users");
     this.wallets = fstore.collection("wallets");
     this.Genesis = fstore.collection("Genesis");
