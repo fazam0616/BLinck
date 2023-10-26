@@ -8,6 +8,7 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {LinearGradient} from 'react-native-linear-gradient';
 
 const config = {
   issuer: 'https://accounts.google.com',
@@ -17,8 +18,7 @@ const config = {
 };
 
 const Stack = createNativeStackNavigator();
-
-async function signIn(navigation){
+async function signIn(nav){
    console.log('hola');
 
    GoogleSignin.configure({
@@ -29,9 +29,8 @@ async function signIn(navigation){
    });
    GoogleSignin.hasPlayServices().then((hasPlayService) => {
            if (hasPlayService) {
-                GoogleSignin.signIn().then((userInfo) => {
-                          console.log(JSON.stringify(userInfo));
-                          navigation.navigate('Dashboard');
+                GoogleSignin.signIn().then((data) => {
+                          nav.replace('Dashboard',{navigation:nav,userInfo:data});
                 }).catch((e) => {
                 console.log("ERROR IS: " + JSON.stringify(e));
                 })
@@ -57,11 +56,41 @@ function Login ({ navigation }) {
     );
 }
 
-function Dashboard({navigation}) {
+function Card({title,balance,colour}){
     return (
-        <View>
-            <Text>Hola</Text>
-        </View>
+            <View style={styles.card} backgroundColor={colour}>
+                <View>
+                    <Text style={styles.cardText}>{title}</Text>
+                </View>
+                <View>
+                    <Text style={styles.cardBalance}>{'$'+balance}</Text>
+                </View>
+            </View>
+    );
+}
+
+function fakeWallet(name, colour,amount){
+    return {title:name,color:colour,balance:amount};
+}
+
+function Dashboard({route, navigation}) {
+    const {userInfo} = route.params;
+    const wallets = [];
+
+    wallets.push(fakeWallet("Netlix","#2e2b30",'30'));
+    wallets.push(fakeWallet("Amazon","purple",'100'));
+    wallets.push(fakeWallet("Rent","blue",'1100'));
+
+    return (
+        <LinearGradient start={{ x: 0.4, y: 0.6 }} end={{ x: 1, y: 0 }}
+        colors={['#573173', '#101011']} style={styles.dashboard}>
+            <View>
+            <Text style={styles.dashboardName}>{userInfo.user.name}</Text>
+            </View>
+            <ScrollView horizontal={true}>
+                {wallets.map((item, i) => <Card title={item.title} colour={item.color} balance={item.balance}/>)}
+            </ScrollView>
+        </LinearGradient>
     );
 }
 
@@ -76,7 +105,6 @@ const YourApp = () => {
           <Stack.Screen
             name="Dashboard"
             component={Dashboard}
-            options={{gestureEnabled: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -86,6 +114,10 @@ const YourApp = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    padding: 0,
+  },
+  dashboard: {
     flex: 1,
     padding: 0,
   },
@@ -105,6 +137,41 @@ const styles = StyleSheet.create({
       height:100,
       alignSelf: 'center',
       marginTop:'2%'
+  },
+  card:{
+      width:250,
+      height:157,
+      position: 'absolute',
+      flexDirection:'row',
+      flex:1,
+      margin:5,
+      position:'relative',
+      borderRadius:10
+  },
+  cardText:{
+      color:'white',
+      fontSize:20,
+      marginLeft:5,
+      position:'absolute',
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10
+  },
+  cardBalance:{
+      color:'white',
+      fontSize:25,
+      marginLeft:5,
+      marginTop:123,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 5
+  },
+  dashboardName:{
+      color:'white',
+      fontSize:35,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 5
   }
 });
 
