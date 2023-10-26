@@ -126,6 +126,4 @@ class FirebaseHandler {
       console.error('Error getting user document:', error);
     });
   }
-
-
 }
