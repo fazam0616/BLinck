@@ -20,9 +20,9 @@ class FirebaseHandler {
     this.app = initializeApp(firebaseConfig);
     //this.analytics = getAnalytics(this.app);
     this.fstore = getFirestore(this.app);
-    this.users = fstore.collection("Users");
-    this.wallets = fstore.collection("wallets");
-    this.Genesis = fstore.collection("Genesis");
+    this.users = this.fstore.collection('Users');
+    this.wallets = this.fstore.collection('wallets');
+    this.Genesis = this.fstore.collection('Genesis');
   }
 
   async firebaseCreateWallet(docId, wallet) {
