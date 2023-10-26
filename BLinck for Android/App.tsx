@@ -9,12 +9,13 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {LinearGradient} from 'react-native-linear-gradient';
+//import FirebaseHandler from 'hedera-sdk/firebase.js'
 
 const config = {
   issuer: 'https://accounts.google.com',
   clientId: '76329107601-20n9pm9sq7a1fj1hedokc2f4m1ms7s96.apps.googleusercontent.com',
   redirectUrl: '',
-  scopes: ['openid', 'profile']
+  scopes: ['openid', 'profile'],
 };
 
 const Stack = createNativeStackNavigator();
@@ -23,13 +24,14 @@ async function signIn(nav){
 
    GoogleSignin.configure({
        androidClientId: '76329107601-20n9pm9sq7a1fj1hedokc2f4m1ms7s96.apps.googleusercontent.com',
-       //offlineAccess: true,
-       //webClientId: 'YOUR_WEB_APPLICATION_CLIENT_ID_HERE',
+       offlineAccess: true,
+       webClientId: '76329107601-qhskvslr7ansj0uful9ciq129le76r3n.apps.googleusercontent.com',
        //iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
    });
    GoogleSignin.hasPlayServices().then((hasPlayService) => {
            if (hasPlayService) {
                 GoogleSignin.signIn().then((data) => {
+                          console.log(data);
                           nav.replace('Dashboard',{navigation:nav,userInfo:data});
                 }).catch((e) => {
                 console.log("ERROR IS: " + JSON.stringify(e));
@@ -73,6 +75,18 @@ function fakeWallet(name, colour,amount){
     return {title:name,color:colour,balance:amount};
 }
 
+function InfoSummary({title, desc, amount}){
+    return (
+        <View style={styles.infoSummary} >
+            <View>
+                <Text style={styles.infoSummaryTitle}>{title}</Text>
+                <Text style={styles.infoSummaryDesc}>{desc}</Text>
+                <Text style={styles.infoSummaryAmount}>{'$'+desc}</Text>
+            </View>
+        </View>
+    );
+}
+
 function Dashboard({route, navigation}) {
     const {userInfo} = route.params;
     const wallets = [];
@@ -90,6 +104,7 @@ function Dashboard({route, navigation}) {
             <ScrollView horizontal={true}>
                 {wallets.map((item, i) => <Card title={item.title} colour={item.color} balance={item.balance}/>)}
             </ScrollView>
+            <InfoSummary title='Total Balance' desc='$CAD' amount='100'/>
         </LinearGradient>
     );
 }
@@ -172,6 +187,28 @@ const styles = StyleSheet.create({
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
       textShadowOffset: {width: -1, height: 1},
       textShadowRadius: 5
+  },
+  infoSummary:{
+      margin:5,
+      position:'relative',
+      height:40,
+      textShadowRadius: 10,
+      backgroundColor:'#25182e'
+  },
+  infoSummaryTitle:{
+      color:'white',
+      fontSize:28,
+  },
+  infoSummaryDesc:{
+      color:'white',
+      fontSize:14,
+      position:'absolute'
+  },
+  infoSummaryAmount:{
+      color:'white',
+      fontSize:20,
+      position:'absolute',
+      marginRight:1
   }
 });
 
