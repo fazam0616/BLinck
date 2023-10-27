@@ -17,9 +17,7 @@ import User from 'hedera-sdk/User.js'
 // import { Client } from "@hashgraph/sdk";
 
 const fhandle = new FirebaseHandler();
-
-var fhandle = new FirebaseHandler();
-
+let currentUser = null;
 console.log(fhandle);
 const config = {
   issuer: 'https://accounts.google.com',
@@ -40,7 +38,7 @@ async function signIn(nav){
    GoogleSignin.hasPlayServices().then((hasPlayService) => {
            if (hasPlayService) {
                 GoogleSignin.signIn().then((data) => {
-                    console.log(data);
+                    //console.log(data);
                     let name=(data['user'])['name'];
                     let email=(data['user'])['email'];
                     let token=data['idToken'];
@@ -48,9 +46,10 @@ async function signIn(nav){
                     //let {userEmail,last,first} = userData;
                     //currentUser = User(first+" "+last, userEmail,token,[]);
                     //currentUser.firebaseUpdateUser(fhandle);
-                    // let currentUser = new User("name", "email",token,[1,2]);
-                    // currentUser.firebaseUpdateUser();
-                    nav.replace('Dashboard',{navigation:nav});
+                    currentUser = new User("name", "email",token,[1,2]);
+                    currentUser.firebaseUpdateUser();
+
+                    nav.replace('Dashboard',{navigation:nav, userInfo:currentUser});
                 }).catch((e) => {
                 console.log("ERROR IS: " + JSON.stringify(e));
                 })
@@ -106,7 +105,7 @@ function InfoSummary({title, desc, amount}){
 }
 
 function Dashboard({route, navigation}) {
-    //const {userInfo} = route['params'];
+    const {userInfo} = route['params'];
     const wallets = [];
 
     wallets.push(fakeWallet("Netlix","#2e2b30",'30'));
