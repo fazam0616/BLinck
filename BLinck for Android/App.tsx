@@ -9,7 +9,14 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {LinearGradient} from 'react-native-linear-gradient';
-//import FirebaseHandler from 'hedera-sdk/firebase.js'
+import FirebaseHandler from 'hedera-sdk/firebase.js'
+import User from 'hedera-sdk/User.js'
+
+// import Wallet from 'hedera-sdk/wallet.js'
+// import foundry from 'hedera-sdk/foundry.js';
+// import { Client } from "@hashgraph/sdk";
+
+const fhandle = new FirebaseHandler();
 
 const config = {
   issuer: 'https://accounts.google.com',
@@ -20,8 +27,6 @@ const config = {
 
 const Stack = createNativeStackNavigator();
 async function signIn(nav){
-   console.log('hola');
-
    GoogleSignin.configure({
        androidClientId: '76329107601-20n9pm9sq7a1fj1hedokc2f4m1ms7s96.apps.googleusercontent.com',
        offlineAccess: true,
@@ -31,8 +36,17 @@ async function signIn(nav){
    GoogleSignin.hasPlayServices().then((hasPlayService) => {
            if (hasPlayService) {
                 GoogleSignin.signIn().then((data) => {
-                          console.log(data);
-                          nav.replace('Dashboard',{navigation:nav,userInfo:data});
+                    console.log(data);
+                    let name=(data['user'])['name'];
+                    let email=(data['user'])['email'];
+                    let token=data['idToken'];
+                    // console.log("Userdata: "+userData);
+                    //let {userEmail,last,first} = userData;
+                    //currentUser = User(first+" "+last, userEmail,token,[]);
+                    //currentUser.firebaseUpdateUser(fhandle);
+                    // let currentUser = new User("name", "email",token,[1,2]);
+                    // currentUser.firebaseUpdateUser();
+                    nav.replace('Dashboard',{navigation:nav});
                 }).catch((e) => {
                 console.log("ERROR IS: " + JSON.stringify(e));
                 })
@@ -88,7 +102,7 @@ function InfoSummary({title, desc, amount}){
 }
 
 function Dashboard({route, navigation}) {
-    const {userInfo} = route.params;
+    //const {userInfo} = route['params'];
     const wallets = [];
 
     wallets.push(fakeWallet("Netlix","#2e2b30",'30'));
@@ -99,7 +113,7 @@ function Dashboard({route, navigation}) {
         <LinearGradient start={{ x: 0.4, y: 0.6 }} end={{ x: 1, y: 0 }}
         colors={['#573173', '#101011']} style={styles.dashboard}>
             <View>
-            <Text style={styles.dashboardName}>{userInfo.user.name}</Text>
+            <Text style={styles.dashboardName}>Oooga</Text>
             </View>
             <ScrollView horizontal={true}>
                 {wallets.map((item, i) => <Card title={item.title} colour={item.color} balance={item.balance}/>)}
