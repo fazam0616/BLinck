@@ -9,7 +9,6 @@ import {
     Hbar,
     TransferTransaction,
 } from "@hashgraph/sdk";
-import 'dotenv/config.js';
   
 import Wallet from './wallet.js';
 import FirebaseHandler from './firebase.js';
