@@ -33,6 +33,7 @@ class User {
 
   // Method to add a wallet to the user's collection
   async createNewWallet(alias, balance, currencyId) {
+      console.log(alias);
 	 const f = new foundry();
     // Creates a new wallet, or gets the genesis wallet from the foundry.
     if (alias === null || balance === null || currencyId === null) { return; }
