@@ -13,10 +13,9 @@ const firebaseConfig = {
 };
 
 class FirebaseHandler {
-  constructor() {  
+  constructor() {
     this.app = initializeApp(firebaseConfig);
     this.fstore = getFirestore(); // Confirmed to be working.
-	console.log(typeof this.fstore);
     this.users = collection(this.fstore, 'Users');
     this.wallets = collection(this.fstore, 'wallets');
     this.Genesis = collection(this.fstore, 'Genesis');
@@ -27,27 +26,27 @@ class FirebaseHandler {
     const walletRef = doc(this.wallets, docId);
 	console.log("\n\nin firebaseCreateWallet, parameters are:" + docId + " " + walletRef.path);
     const walletDoc = await getDoc(walletRef);
-	
+
     if (walletDoc.exists()) {
       return walletRef.path;
     } else {
-	  const dcock = doc(this.fstore, "wallets", docId); 
+	  const dcock = doc(this.fstore, "wallets", docId);
       await setDoc(dcock, JSON.parse(wallet));
 	  return walletRef.path
     }
   }
-  
-  
+
+
   async firebaseCreateAccount(docId, user) {
     const userRef = doc(this.users, docId);
 	console.log("\n\nIn firebaseCreateAccount: "+docId+"\n\n\n"+userRef);
 	console.log("\nWallet creation debug:"+typeof userRef);
     const userDoc = await getDoc(userRef);
-	
+
     if (userDoc.exists()) {
       return walletRef;
     } else {
-	  const dcock = doc(this.fstore, "Users", docId); 
+	  const dcock = doc(this.fstore, "Users", docId);
       await setDoc(dcock, JSON.parse(user));
     }
   }
@@ -60,8 +59,8 @@ class FirebaseHandler {
 
   async firebaseUpdateAccount(user, docId) {
 	 console.log("in firebaseUpdateAccount, parameters are:" + user + docId);
-	  
-     const dcock = doc(this.fstore, "Users", docId); 
+
+     const dcock = doc(this.fstore, "Users", docId);
      await setDoc(dcock, JSON.parse(user));
   }
 
@@ -77,11 +76,11 @@ class FirebaseHandler {
       console.log('Wallet document does not exist');
     }
   }
-  
+
   async getDocumentAtPath(path) {
 	const documentRef = doc(this.fstore, path);
 	const documentSnapshot = await getDoc(documentRef);
-  
+
 	if (documentSnapshot.exists()) {
 		return documentSnapshot.data();
 	} else {
@@ -104,7 +103,7 @@ class FirebaseHandler {
       // Assuming walletPaths is an array of document paths.
 		const firstWalletPath = walletPaths[0];
 		console.log("\nWallet path:" + firstWalletPath);
-      
+
 		// Retrieve the document at the firstWalletPath and return its accountId.
 		const walletDocRef = doc(this.fstore, firstWalletPath);
 		const walletDocSnapshot = await getDoc(walletDocRef);
@@ -117,9 +116,9 @@ class FirebaseHandler {
   }
 
   async firebaseFetchUser(docId) {
-	  
-	  console.log("\nEntered firebasefetch with parameter:" + docId); 
-	  
+
+	  console.log("\nEntered firebasefetch with parameter:" + docId);
+
     const userRef = doc(this.users, docId);
     const userDoc = await getDoc(userRef);
 

@@ -1,4 +1,4 @@
-import Wallet from './wallet.js'
+// import Wallet from './wallet.js'
 import FirebaseHandler from "./firebase.js";
 import foundry from './foundry.js';
 import { Client } from "@hashgraph/sdk";
