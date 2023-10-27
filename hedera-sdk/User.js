@@ -23,6 +23,7 @@ class User {
     clone.wallets = w2;
     clone.client = null;
     const jclone = JSON.stringify(clone);
+	console.log("\n\n\n\n"+FHandle);
     FHandle.firebaseUpdateAccount(jclone, this.email + this.accountId);
   }
 

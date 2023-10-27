@@ -26,10 +26,10 @@ console.log('\nIs genesisWallet an instance of Wallet?', walls[1] instanceof Wal
 
 // Test firebaseUpdateUser: 
 console.log('\nTesting Firebase:');
-usr.firebaseUpdateUser();
+usr.firebaseUpdateUser(FHandle);
 console.log("\nCheck firebase dingus");
 
-usr.firebaseUpdateUser(FHandle);
+//usr.firebaseUpdateUser(FHandle);
 
 // Test case 5: Downloading User and Wallets from Firebase
 const usr2 = foundry.getUserFromFirebase(usr.kycId);

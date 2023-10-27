@@ -10,6 +10,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {LinearGradient} from 'react-native-linear-gradient';
 import FirebaseHandler from 'hedera-sdk/firebase.js'
+import User from 'hedera-sdk/User.js'
 
 var fhandle = new FirebaseHandler();
 
@@ -22,6 +23,7 @@ const config = {
 };
 
 const Stack = createNativeStackNavigator();
+const currentUser = null;
 async function signIn(nav){
    console.log('hola');
 
@@ -34,7 +36,7 @@ async function signIn(nav){
    GoogleSignin.hasPlayServices().then((hasPlayService) => {
            if (hasPlayService) {
                 GoogleSignin.signIn().then((data) => {
-                          console.log(data);
+                          currentUser = User(data.user.name, data.user.email,[]);
                           nav.replace('Dashboard',{navigation:nav,userInfo:data});
                 }).catch((e) => {
                 console.log("ERROR IS: " + JSON.stringify(e));
