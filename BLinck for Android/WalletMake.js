@@ -28,7 +28,7 @@ export default function WalletMake({ route, navigation }) {
   const handleCreateWallet = async () => {
     try {
       // Call the addNewCard function with the selected data
-      await addNewCard(navigation, user, alias, amount, selectedCurrency);
+      user = await addNewCard(navigation, user, alias, amount, selectedCurrency);
 
       // You can also add a success message or action here
     } catch (error) {
