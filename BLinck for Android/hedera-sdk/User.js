@@ -34,7 +34,7 @@ class User {
 	 const f = new foundry();
     // Creates a new wallet, or gets the genesis wallet from the foundry.
     if (alias === null || balance === null || currencyId === null) { return; }
-
+    if (this.wallets==null) this.wallets=[];
      // First/Primary wallet for user, will be paid for by wallet foundry
     this.wallets.push(await f.requestGenesisWallet(balance, alias, currencyId));
 	console.log("\nthis is User.js; your wallet account id is:" + this.wallets.at(-1).accountId);
