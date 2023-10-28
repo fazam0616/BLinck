@@ -14,8 +14,8 @@ export default function Dashboard({route, navigation}) {
     return (
         <Tab.Navigator>
           <Tab.Screen name="Account Summary" component={AccountSummary} options={styles.tabOption} initialParams={{ user:user }}/>
-          <Tab.Screen name="Tasks" component={Tasks}  options={styles.tabOption} initialParams={{ user:user }}/>
-          <Tab.Screen name="Transactions" component={Transactions}  options={styles.tabOption} initialParams={{ user:user }}/>
+          {/* <Tab.Screen name="Tasks" component={Tasks}  options={styles.tabOption} initialParams={{ user:user }}/>
+          <Tab.Screen name="Transactions" component={Transactions}  options={styles.tabOption} initialParams={{ user:user }}/> */}
         </Tab.Navigator>
     );/*Add a Tab.Screen for every tab within the dashboard*/
 }
