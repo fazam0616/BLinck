@@ -16,6 +16,7 @@ async function addNewCard(navigation, user, alias, balance, currId) {
   await u.createNewWallet(alias, balance, currId);
   await u.firebaseUpdateUser(FHandle);
   navigation.goBack();
+  return u;
 }
 
 export default function WalletMake({ route, navigation }) {
