@@ -13,6 +13,9 @@ import Transactions from './transactions.js'
 import Login from './login.js'
 import Dashboard from './dashboard.js'
 import CreateAccount from './createaccount.js';
+import WalletMake from './WalletMake.js';
+import Tasks from './tasks.js';
+import CardDetails from './components/CardDetails.js';
 
 // import Wallet from 'hedera-sdk/wallet.js'
 // import foundry from 'hedera-sdk/foundry.js';
@@ -27,64 +30,7 @@ const config = {
   scopes: ['openid', 'profile'],
 };
 
-//const {wallets,setWallet} = React.useState([1,2]);
 
-
-
-async function addNewCard(navigation, user, name, balance, currId){
-    await user.createNewWallet(name,balance,currId);
-    await user.firebaseUpdateUser(fhandle);
-    navigation.goBack();
-}
-
-function AddCard({route, navigation}) {
-    const {user} = route.params;
-    const [name, onChangeName] = React.useState('');
-    const [currId, onChangeCurrId] = React.useState('');
-    const [balance, onChangeBalance] = React.useState(5);
-    
-    return (
-            <View>
-                <Text style={styles.addCardSubtitle}>{"Card Name"}</Text>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="My Card"
-                        placeholderTextColor="#aaaaaa"
-                        onChangeText={onChangeName}
-                        value={name}
-                      />
-                </View>
-                <Text style={styles.addCardSubtitle}>{"Starting Balance"}</Text>
-
-                {/* <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        placeholderTextColor="#aaaaaa"
-                        onChangeText={onChangeBalance}
-                        value={balance}
-                      />
-                </View> */}
-
-                <Text style={styles.addCardSubtitle}>{"Currency Type"}</Text>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="USD"
-                        placeholderTextColor="#aaaaaa"
-                        onChangeText={onChangeCurrId}
-                        value={currId}
-                      />
-                </View>
-                <Button title="Add" onPress={() => {
-                    if (name&&currId) {
-                        addNewCard(navigation,user,name,balance+"",currId);
-                    }
-                }}/>
-            </View>
-      
-    );
-}
 
 
 
@@ -104,12 +50,20 @@ const YourApp = () => {
             component={Dashboard}
           />
           <Stack.Screen
-            name="AddCard"
-            component={AddCard}
+            name="WalletMake"
+            component={WalletMake}
           />
           <Stack.Screen
             name="CreateAccount"
             component={CreateAccount}
+          />
+          <Stack.Screen
+            name="Tasks"
+            component={Tasks}
+          />
+          <Stack.Screen
+            name="Transactions"
+            component={Transactions}
           />
         </Stack.Navigator>
       </NavigationContainer>

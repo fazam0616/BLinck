@@ -28,9 +28,6 @@ class User {
     FHandle.firebaseUpdateAccount(jclone, this.kycId);
   }
 
-
-
-
   // Method to add a wallet to the user's collection
   async createNewWallet(alias, balance, currencyId) {
       console.log(alias);

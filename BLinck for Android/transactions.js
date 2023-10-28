@@ -2,7 +2,7 @@ import {View, Text, Image, ScrollView, TextInput, Button, ImageBackground, Style
 
 export default function Transactions ({route,navigation}) {
     //The current user
-    const {user} = route.params
+    const { user, wallet } = route.params
     return (
         <View>
             <Text>PlaceHolder</Text>

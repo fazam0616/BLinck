@@ -32,7 +32,6 @@ class Wallet {
     }
 
 
-
     async initiateTransaction(amount, targetEmail, FHandle) {
         if (this.balance < amount) {return null;} // needs error handling
        
@@ -50,7 +49,7 @@ class Wallet {
         // Verify the transaction reached consensus
         const transactionReceipt = await sendHbar.getReceipt(client);
         this.receipts.push(transactionReceipt);
-
+        this.balance = this.balance - amount;
         // Upload Receipt to Firebase:
         console.log("The transfer transaction from my account to the new account was: " + transactionReceipt.status.toString());
 

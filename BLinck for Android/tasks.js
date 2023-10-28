@@ -2,21 +2,26 @@ import React, { useState } from 'react';
 import { View, Text, Button, Modal, StyleSheet } from 'react-native';
 
 export default function Tasks({route, navigation}){
+  const { user } = route.params
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
+
+  const totalBalance = user.wallets.reduce((acc, wallet) => acc + wallet.balance, 0);
+  const taxes = totalBalance * 0.12;
+  const afterRent = totalBalance - 1000;
   
   // Define an array of tasks, where each task is an object with a name and a function
   const tasks = [
     {
-      name: 'Task 1',
+      name: 'Calculate my Taxes',
       func: () => {
-        return 'This is the result of Task 1';
+        return " Your total taxes are:" + taxes.toString() ;
       },
     },
     {
-      name: 'Task 2',
+      name: 'Calculate after Rent',
       func: () => {
-        return 'This is the result of Task 2';
+        return 'You will have' + afterRent.toString() + 'after paying rent this month lol';
       },
     },
   ];
@@ -30,13 +35,14 @@ export default function Tasks({route, navigation}){
 
   return(
     <View style={styles.container}>
-      {/* {tasks.map((task, index) => (
+
+      {tasks.map((task, index) => (
         <Button
           key={index}
           title={task.name}
           onPress={() => handleTaskClick(task.func)}
         />
-      )} */}
+      ))}
   
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
