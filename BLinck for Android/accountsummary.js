@@ -1,6 +1,6 @@
 
 import {View, Text, Image, ScrollView, TextInput, Button, ImageBackground, StyleSheet, Alert} from 'react-native';
-import {LinearGradient} from 'react-native-linear-gradient';
+//import {LinearGradient} from 'react-native-linear-gradient';
 
 function InfoSummary({title, desc, amount}){
     return (
@@ -28,22 +28,22 @@ function Card({title,balance,colour}){
 export default function AccountSummary({route, navigation}) {
     const {user} = route.params;
     return (
-        <LinearGradient start={{ x: 0.4, y: 0.6 }} end={{ x: 1, y: 0 }}
-        colors={['#573173', '#101011']} style={styles.dashboard}>
-            <View>
-                <Text style={styles.dashboardName}>{user.name}</Text>
-            </View>
-            <View>
-                <ScrollView horizontal={true}>
-                    {user.wallets.map((item, i) => <Card title={item.alias} colour={"purple"} balance={item.balance} key={i}/>)}
-                </ScrollView>
-            </View>
-            <View style={styles.addCardContainer}>
-                <Button style={styles.addCardButton} title="Add Card!" onPress={() => navigation.navigate('AddCard',{user:user})} />
-            </View>
-            <InfoSummary title='Total Balance' desc='$CAD' amount='100'/>
-        </LinearGradient>
-    );
+        <View>
+          <View>
+            <Text style={styles.dashboardName}>{user.name}</Text>
+          </View>
+          <View>
+            <ScrollView horizontal={true}>
+            {user.wallets.map((item, i) => <Card title={item.alias} colour={"purple"} balance={item.balance} key={i}/>)}
+            </ScrollView>
+          </View>
+          <View style={styles.addCardContainer}>
+            <Button style={styles.addCardButton} title="Add Card!" onPress={() => navigation.navigate('AddCard', { user: user })} />
+          </View>
+          <InfoSummary title='Total Balance' desc='$CAD' amount='100' />
+        </View>
+      );
+      
 }
 
 const styles = StyleSheet.create({

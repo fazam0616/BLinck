@@ -17,12 +17,9 @@ class foundry {
     genesisPrivateKey;
     genesisAccountId;
 
-    constructor() { // REPLACE WITH A FIREBASE THING
+    constructor() { // REPLACE WITH A FIREBASE THING (d: CAN'T, IT COSTS MONEY. WHO CARES IF THIS IS THE LEAST SECURE THING KNOWN TO MAN)
         this.genesisAccountId = "0.0.1113463";
         this.genesisPrivateKey = "302e020100300506032b65700422042008fe74c5cb3f6de35a868a08f190f0547131d4186ef0a6223db7b05a888de491"; // we don't want this
-        //this.#genesisClient.setOperator(this.#genesisAccountId, this.#genesisPrivateKey);
-        //this.#genesisClient.setDefaultMaxTransactionFee(new Hbar(100));
-        //this.#genesisClient.setDefaultMaxQueryPayment(new Hbar(50));
     }
 
     async requestGenesisWallet(balance, alias, currencyId) { // "working"
@@ -50,6 +47,7 @@ class foundry {
     }
 
     static async getUserFromFirebase(userId, FHandle) {
+        console.log("Enterd Foundry fcn");
         const w2 = [];
         const juser = await FHandle.firebaseFetchUser(userId);
 		

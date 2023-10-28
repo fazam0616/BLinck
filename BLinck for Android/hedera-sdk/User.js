@@ -6,10 +6,10 @@ import { Client } from "@hashgraph/sdk";
 
 
 class User {
-  constructor(name, email, token, wallets) {
+  constructor(name, email, kycId, wallets) {
     this.name = name;
     this.email = email;
-    this.kycId = token; // Change later.
+    this.kycId = kycId; // Change later.
     this.wallets = wallets;     // A collection of Wallet objects
   }
 

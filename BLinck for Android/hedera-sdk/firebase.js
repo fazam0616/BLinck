@@ -40,22 +40,21 @@ class FirebaseHandler {
   
   async firebaseCreateAccount(docId, user) {
     const userRef = doc(this.users, docId);
-	console.log("\n\nIn firebaseCreateAccount: "+docId+"\n\n\n"+userRef);
-	console.log("\nWallet creation debug:"+typeof userRef);
-    const userDoc = await getDoc(userRef);
+	  const userDoc = await getDoc(userRef);
 	
     if (userDoc.exists()) {
-      return walletRef;
+      return userRef;
     } else {
 	  const dcock = doc(this.fstore, "Users", docId); 
-      await setDoc(dcock, JSON.parse(user));
+      await setDoc(dcock, user);
+      return "gucci";
     }
   }
 
   async firebaseUpdateWallet(docId, wallet) {
     const walletRef = doc(this.wallets, docId);
 	const dcock = doc(this.fstore, "wallets", docId);
-    await setDoc(dcock, JSON.parse(wallet));
+    await setDoc(dcock, wallet);
   }
 
   async firebaseUpdateAccount(user, docId) {

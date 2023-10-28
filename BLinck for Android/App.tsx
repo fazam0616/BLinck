@@ -4,13 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { authorize } from 'react-native-app-auth';
-import {LinearGradient} from 'react-native-linear-gradient';
-import FirebaseHandler from 'hedera-sdk/firebase.js'
-import User from 'hedera-sdk/User.js';
+//import {LinearGradient} from 'react-native-linear-gradient';
+
+import FirebaseHandler from './hedera-sdk/firebase.js'
+import User from './hedera-sdk/User.js';
 import { Buffer } from 'buffer'
 import Transactions from './transactions.js'
 import Login from './login.js'
 import Dashboard from './dashboard.js'
+import CreateAccount from './createaccount.js';
 
 // import Wallet from 'hedera-sdk/wallet.js'
 // import foundry from 'hedera-sdk/foundry.js';
@@ -29,21 +31,19 @@ const config = {
 
 
 
-async function addNewCard(navigation,user,name,balance,currId){
+async function addNewCard(navigation, user, name, balance, currId){
     await user.createNewWallet(name,balance,currId);
     await user.firebaseUpdateUser(fhandle);
-    //addWallet(user.wallets[-1]);
     navigation.goBack();
 }
 
-function AddCard({route,navigation}) {
+function AddCard({route, navigation}) {
     const {user} = route.params;
     const [name, onChangeName] = React.useState('');
     const [currId, onChangeCurrId] = React.useState('');
     const [balance, onChangeBalance] = React.useState(5);
+    
     return (
-        <LinearGradient start={{ x: 0.4, y: 0.6 }} end={{ x: 1, y: 0 }}
-        colors={['#573173', '#101011']} style={styles.dashboard}>
             <View>
                 <Text style={styles.addCardSubtitle}>{"Card Name"}</Text>
                 <View style={styles.inputContainer}>
@@ -56,15 +56,16 @@ function AddCard({route,navigation}) {
                       />
                 </View>
                 <Text style={styles.addCardSubtitle}>{"Starting Balance"}</Text>
-                <View style={styles.inputContainer}>
+
+                {/* <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
-                        keyboardType='numeric'
                         placeholderTextColor="#aaaaaa"
                         onChangeText={onChangeBalance}
                         value={balance}
                       />
-                </View>
+                </View> */}
+
                 <Text style={styles.addCardSubtitle}>{"Currency Type"}</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -81,13 +82,9 @@ function AddCard({route,navigation}) {
                     }
                 }}/>
             </View>
-        </LinearGradient>
+      
     );
 }
-
-// function addWallet(wallet) {
-//     setItems([...wallets, wallet]);
-// }
 
 
 
@@ -109,6 +106,10 @@ const YourApp = () => {
           <Stack.Screen
             name="AddCard"
             component={AddCard}
+          />
+          <Stack.Screen
+            name="CreateAccount"
+            component={CreateAccount}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
       // top:6,
   },
   tabOption:{
-      headerShown: false
+      // headerShown: false
   },
   addCardButton:{
       borderRadius: 20,

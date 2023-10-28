@@ -2,19 +2,24 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {View, Text, Image, ScrollView, TextInput, Button, ImageBackground, StyleSheet, Alert} from 'react-native';
+//import {LinearGradient} from 'react-native-linear-gradient';
 import AccountSummary from './accountsummary.js'
 import Transactions from './transactions.js'
+import Tasks from './tasks.js';
+import WalletScreen from './WalletScreen.js';
 
 export default function Dashboard({route, navigation}) {
     const Tab = createBottomTabNavigator();
     const {user} = route.params;
-    //console.log(user);
+    const nav = navigation;
 
     return (
         <Tab.Navigator>
           <Tab.Screen name="Account Summary" component={AccountSummary} options={styles.tabOption} initialParams={{ user:user}}/>
           <Tab.Screen name="Transactions" component={Transactions}  options={styles.tabOption} initialParams={{ user:user}}/>
-
+          {/* <Tab.Screen name="Tasks" component={Tasks}  options={styles.tabOption} initialParams={{ user:user}}/>
+          <Tab.Screen name="Wallets" component={WalletScreen}  options={styles.tabOption} initialParams={{ user:user}}/> */}
+          <Tab.Screen name="Dashboard" component={Dashboard}  options={styles.tabOption} initialParams={{ user:user}}/>
         </Tab.Navigator>
     );/*Add a Tab.Screen for every tab within the dashboard*/
 }
